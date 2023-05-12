@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import {
     getImageData,
     countGrayPixels,
@@ -34,7 +33,7 @@ export class MainScene extends Phaser.Scene {
         const canvasCenterX = this.game.config.width / 2;
         const canvasCenterY = this.game.config.height / 2;
         this.numberSprite = this.add.text(canvasCenterX, canvasCenterY, '', {
-            font: '500px Arial',
+            font: '400px Arial',
             fill: '#808080',
             stroke: '#808080',
             strokeThickness: 10,
@@ -47,11 +46,17 @@ export class MainScene extends Phaser.Scene {
     drawNumber(number) {
         this.numberSprite.setText(number.toString());
 
-        // Update the image data and gray pixel count after a short delay
-        setTimeout(() => {
+        // Wait for the next frame to be drawn before updating the image data and gray pixel count
+        // requestAnimationFrame(() => {
+        //     this.originalImageData = getImageData(this.game.canvas);
+        //     this.originalGrayPixels = countGrayPixels(this.originalImageData);
+        //     console.log(this.originalGrayPixels)
+        //     console.log(this.originalImageData)
+        // });
+        this.time.delayedCall(100, () => {
             this.originalImageData = getImageData(this.game.canvas, this.numberSprite);
             this.originalGrayPixels = countGrayPixels(this.originalImageData);
-        }, 10);
+        });
     }
 
     checkTracing() {
@@ -61,6 +66,8 @@ export class MainScene extends Phaser.Scene {
 
         const tracedPercentage = 1 - remainingGrayPixels / this.originalGrayPixels;
         const extraTracingPercentage = tracedPixels / this.originalGrayPixels;
+
+        console.log(tracedPercentage, extraTracingPercentage)
 
         const tracingThreshold = 0.7;
         const extraTracingThreshold = 2;

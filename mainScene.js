@@ -54,6 +54,13 @@ export class MainScene extends Phaser.Scene {
         this.currentNumber = this.pickRandomNumber();
         this.drawNumber(this.currentNumber);
 
+        const dedicatedButton = this.add.text(this.cameras.main.width-130, this.cameras.main.height-24, 'HUNTER FARIAS', {
+            font: '16px Arial',
+            fill: '#fff',
+            stroke: '#fff',
+            align: 'left'
+        });
+
         // Create a restart button
         const restartButton = this.add.text(20, 10, 'RESTART', {
             font: '20px Arial',
